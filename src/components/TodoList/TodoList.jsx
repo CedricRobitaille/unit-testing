@@ -17,6 +17,8 @@ const TodoList = ({todos}) => {
       {todoList.map((todo, index) => (
         <input key={index} value={todo} onChange={(e) => {handleInputChange(index, e)}} aria-label={`todo-${index}`}></input>
       ))}
+
+      {todoList != todos && <button>Save Changes</button>}
     </form>
   )
 }

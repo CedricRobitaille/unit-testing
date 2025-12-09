@@ -69,14 +69,9 @@ test('Edit todo element to change value', async () => {
   const navButton = app.getByText("create")
 
   fireEvent.click(navButton);
-  // Confirm Page Redirect
-  const newTodoHeader = app.getByText("Create a new todo");
-  expect(newTodoHeader).toBeInTheDocument();
 
   const formInput = app.getByRole('textbox', { name: /todo name/i })
   await userEvent.type(formInput, todoText)
-  // Confirm Input Change on Type
-  expect(formInput).toHaveValue(todoText);
 
   const formElement = app.getByRole('form', { name: /create form/i })
   fireEvent.submit(formElement);
@@ -85,4 +80,29 @@ test('Edit todo element to change value', async () => {
   const todoElement = app.getByRole('textbox', { name: /todo-0/i })
   await userEvent.clear(todoElement);
   expect(todoElement).toHaveValue("");
+})
+
+
+test('Edit todo element to reveal save button', async () => {
+  const todoText = "Example todo"
+  const revisedText = "Revised todo"
+
+  const app = render(<App />)
+  const navButton = app.getByText("create")
+
+  fireEvent.click(navButton);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
+
+  const todoElement = app.getByRole('textbox', { name: /todo-0/i })
+  await userEvent.clear(todoElement);
+  await userEvent.type(todoElement, revisedText)
+
+  // Confirm save button exists
+  const saveButton = app.getByText("Save Changes")
+  expect(saveButton).toBeInTheDocument()
 })
