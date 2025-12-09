@@ -10,14 +10,29 @@ test('Render Navigation', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
+
+
 test('Handle Navigation Change', () => {
   
   const app = render(<App />)
   const button = app.getByText("create")
 
   fireEvent.click(button); 
-  
+
   const header = app.getByText("Create a new todo");
   expect(header).toBeInTheDocument();
 
+})
+
+
+
+test('Render Create Form', () => {
+
+  const app = render(<App />)
+  const button = app.getByText("create")
+
+  fireEvent.click(button); 
+
+  const form = app.getByRole('form')
+  expect(form).toBeInTheDocument();
 })
