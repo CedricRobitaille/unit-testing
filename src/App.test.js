@@ -72,7 +72,7 @@ test('Change Page on Form Submit', async () => {
   const formElement = app.getByRole('form', { name: /create form/i })
   fireEvent.submit(formElement);
 
-  const header = app.getByText("Home");
+  const header = app.getByText("Your todos");
   expect(header).toBeInTheDocument()
 
 })

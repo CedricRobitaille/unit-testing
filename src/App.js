@@ -8,13 +8,15 @@ import CreateForm from "./components/CreateForm/CreateForm"
 const App = () => {
 
   const [page, setPage] = useState("home");
+  const [todos, setTodos] = useState([])
 
   const handleNavigate = (view) => {
     setPage(view);
   }
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
+  const handleFormSubmit = (todoName, event) => {
+    setPage("home")
+    setTodos([...todos, todoName])
   }
 
   return (

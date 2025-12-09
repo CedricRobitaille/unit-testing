@@ -10,6 +10,8 @@ const CreateForm = ({ handleFormSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    handleFormSubmit(inputValue)
   }
 
   return (
