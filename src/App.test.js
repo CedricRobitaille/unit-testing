@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup} from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import App from './App';
 import Nav from "./components/Nav/Nav"
 
@@ -31,8 +32,25 @@ test('Render Create Form', () => {
   const app = render(<App />)
   const button = app.getByText("create")
 
-  fireEvent.click(button); 
+  fireEvent.click(button);
 
-  const formElement = app.getByRole('form', { name: /create form/i})
+  // forms are not accessible by getByRole
+  // To access it, we need a aria-label to query with
+  const formElement = app.getByRole('form', { name: /create form/i })
   expect(formElement).toBeInTheDocument();
+})
+
+
+test('Render Create Form', async () => {
+
+  const app = render(<App />)
+  const button = app.getByText("create")
+
+  fireEvent.click(button);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  const referenceText = "Example todo"
+
+  await userEvent.type(formInput, referenceText)
+  expect(formInput).toHaveValue(referenceText);
 })
