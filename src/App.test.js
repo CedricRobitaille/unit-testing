@@ -62,26 +62,27 @@ test('User flow to create new task (Page Nav -> Input Text -> Submit Form -> Pag
 })
 
 
-// test('Edit todo element to change value', async () => {
-//   const todoText = "Example todo"
+test('Edit todo element to change value', async () => {
+  const todoText = "Example todo"
 
-//   const app = render(<App />)
-//   const navButton = app.getByText("create")
+  const app = render(<App />)
+  const navButton = app.getByText("create")
 
-//   fireEvent.click(navButton);
-//   // Confirm Page Redirect
-//   const newTodoHeader = app.getByText("Create a new todo");
-//   expect(newTodoHeader).toBeInTheDocument();
+  fireEvent.click(navButton);
+  // Confirm Page Redirect
+  const newTodoHeader = app.getByText("Create a new todo");
+  expect(newTodoHeader).toBeInTheDocument();
 
-//   const formInput = app.getByRole('textbox', { name: /todo name/i })
-//   await userEvent.type(formInput, todoText)
-//   // Confirm Input Change on Type
-//   expect(formInput).toHaveValue(todoText);
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+  // Confirm Input Change on Type
+  expect(formInput).toHaveValue(todoText);
 
-//   const formElement = app.getByRole('form', { name: /create form/i })
-//   fireEvent.submit(formElement);
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
 
-//   // Confirm Todo Element Created
-//   const todoElement = app.getByText(todoText)
-//   expect(todoElement).toBeInTheDocument()
-// })
+  // Confirm Todo Element Created
+  const todoElement = app.getByRole('textbox', { name: /todo-0/i })
+  await userEvent.clear(todoElement);
+  expect(todoElement).toHaveValue("");
+})
