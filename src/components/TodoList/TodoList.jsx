@@ -11,9 +11,13 @@ const TodoList = ({todos}) => {
     // Set it to the new value, otherwise, keep as is.
     setTodoList(prev => prev.map((elem, i) => (i === index ? e.target.value : elem)))
   }
+
+  const handleSaveChanges = (e) => {
+    e.preventDefault()
+  }
   
   return (
-    <form>
+    <form onSubmit={handleSaveChanges}>
       {todoList.map((todo, index) => (
         <input key={index} value={todo} onChange={(e) => {handleInputChange(index, e)}} aria-label={`todo-${index}`}></input>
       ))}

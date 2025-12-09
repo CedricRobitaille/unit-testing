@@ -106,3 +106,37 @@ test('Edit todo element to reveal save button', async () => {
   const saveButton = app.getByText("Save Changes")
   expect(saveButton).toBeInTheDocument()
 })
+
+
+test('Save changes on click of "Save Changes" button', async () => {
+  const todoText = "Example todo"
+  const revisedText = "Revised todo"
+
+  const app = render(<App />)
+  const navButton = app.getByText("create")
+
+  fireEvent.click(navButton);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
+
+  const todoElement = app.getByRole('textbox', { name: /todo-0/i })
+  await userEvent.clear(todoElement);
+  await userEvent.type(todoElement, revisedText)
+
+  const saveButton = app.getByText("Save Changes")
+  fireEvent.click(saveButton)
+
+  // Redirect to force state change
+  const navCreateButton = app.getByText("create")
+  fireEvent.click(navCreateButton);
+  // Return to rewiew changes
+  const navHomeButton = app.getByText("home")
+  fireEvent.click(navHomeButton);
+
+  const revisedTodoElement = app.getByRole('textbox', { name: /todo-0/i })
+  expect(revisedTodoElement).toHaveValue(revisedText)
+})
