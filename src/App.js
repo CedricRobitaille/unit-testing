@@ -4,6 +4,7 @@ import './App.css';
 import Nav from "./components/Nav/Nav"
 import Header from './components/Header/Header';
 import CreateForm from "./components/CreateForm/CreateForm"
+import TodoList from './components/TodoList/TodoList';
 
 const App = () => {
 
@@ -14,9 +15,9 @@ const App = () => {
     setPage(view);
   }
 
-  const handleFormSubmit = (todoName, event) => {
+  const handleFormSubmit = (todoName) => {
     setPage("home")
-    setTodos([...todos, todoName])
+    setTodos(prevTodos => [...prevTodos, todoName])
   }
 
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Nav handleNavigate={handleNavigate} />
       <Header page={page} />
       {page === "create" && <CreateForm handleFormSubmit={handleFormSubmit} />}
+      {page === "home" && <TodoList todos={todos}/>}
     </>
   )
 }

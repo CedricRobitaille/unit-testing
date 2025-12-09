@@ -76,3 +76,23 @@ test('Change Page on Form Submit', async () => {
   expect(header).toBeInTheDocument()
 
 })
+
+
+
+test('Create New Todo Element on Form Submit', async () => {
+  const todoText = "Example todo"
+
+  const app = render(<App />)
+  const button = app.getByText("create")
+
+  fireEvent.click(button);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
+
+  const todoElement = app.getByText(todoText)
+  expect(todoElement).toBeInTheDocument()
+})
