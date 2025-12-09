@@ -20,12 +20,16 @@ const App = () => {
     setTodos(prevTodos => [...prevTodos, todoName])
   }
 
+  const handleTodoChanges = (todoList) => {
+    setTodos(todoList)
+  }
+
   return (
     <>
       <Nav handleNavigate={handleNavigate} />
       <Header page={page} />
       {page === "create" && <CreateForm handleFormSubmit={handleFormSubmit} />}
-      {page === "home" && <TodoList todos={todos}/>}
+      {page === "home" && <TodoList todos={todos} handleTodoChanges={handleTodoChanges} />}
     </>
   )
 }

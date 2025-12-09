@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react"
 
 
-const TodoList = ({todos}) => {
+const TodoList = ({ todos, handleTodoChanges }) => {
 
   const [todoList, setTodoList] = useState(todos)
+
+  useEffect(() => {
+    const updateTodoList = () => {
+      setTodoList(todos)
+    }
+    updateTodoList()
+  }, [todos])
+
+
 
   const handleInputChange = (index, e) => {
     // map through each element of the original array
@@ -14,6 +23,7 @@ const TodoList = ({todos}) => {
 
   const handleSaveChanges = (e) => {
     e.preventDefault()
+    handleTodoChanges(todoList)
   }
   
   return (
