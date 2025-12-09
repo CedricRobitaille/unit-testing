@@ -1,13 +1,21 @@
+import { useEffect, useState } from "react"
 
 
 const TodoList = ({todos}) => {
 
+  const [todoList, setTodoList] = useState(todos)
+
+  const handleInputChange = (index, e) => {
+    // map through each element of the original array
+    // If the index of said array matches the edited index...
+    // Set it to the new value, otherwise, keep as is.
+    setTodoList(prev => prev.map((elem, i) => (i === index ? e.target.value : elem)))
+  }
   
   return (
     <form>
-      {todos.map((todo, index) => (
-        <input key={index} value={todo} onChange={() => {}} aria-label={`todo-${index}`}>
-        </input>
+      {todoList.map((todo, index) => (
+        <input key={index} value={todo} onChange={(e) => {handleInputChange(index, e)}} aria-label={`todo-${index}`}></input>
       ))}
     </form>
   )
