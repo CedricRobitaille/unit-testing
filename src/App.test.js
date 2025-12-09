@@ -41,6 +41,7 @@ test('Render Create Form', () => {
 })
 
 
+
 test('Render Create Form', async () => {
 
   const app = render(<App />)
@@ -53,4 +54,25 @@ test('Render Create Form', async () => {
 
   await userEvent.type(formInput, referenceText)
   expect(formInput).toHaveValue(referenceText);
+})
+
+
+
+test('Change Page on Form Submit', async () => {
+  const todoText = "Example todo"
+
+  const app = render(<App />)
+  const button = app.getByText("create")
+
+  fireEvent.click(button);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
+
+  const header = app.getByText("Home");
+  expect(header).toBeInTheDocument()
+
 })

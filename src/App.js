@@ -13,11 +13,15 @@ const App = () => {
     setPage(view);
   }
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+  }
+
   return (
     <>
       <Nav handleNavigate={handleNavigate} />
       <Header page={page} />
-      {page === "create" && <CreateForm />}
+      {page === "create" && <CreateForm handleFormSubmit={handleFormSubmit} />}
     </>
   )
 }
