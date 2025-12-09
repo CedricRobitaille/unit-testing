@@ -9,6 +9,17 @@ describe("Test the root path", () => {
   })
 })
 
+
+
+describe("Test the users endpoints", () => {
+  test("It should create a new user", async () => {
+    const response = await request(app)
+      .post('/todos')
+      .send({ todo: "Example Todo" })
+    expect(response.body).toEqual({ todo: "Example Todo" })
+  })
+})
+
 afterAll(done => {
   server.close()
   done();
