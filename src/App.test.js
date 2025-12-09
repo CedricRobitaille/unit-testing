@@ -33,6 +33,6 @@ test('Render Create Form', () => {
 
   fireEvent.click(button); 
 
-  const form = app.getByRole('form')
-  expect(form).toBeInTheDocument();
+  const formElement = app.getByRole('form', { name: /create form/i})
+  expect(formElement).toBeInTheDocument();
 })
