@@ -13,86 +13,50 @@ test('Render Navigation', () => {
 
 
 
-test('Handle Navigation Change', () => {
-  
-  const app = render(<App />)
-  const button = app.getByText("create")
-
-  fireEvent.click(button); 
-
-  const header = app.getByText("Create a new todo");
-  expect(header).toBeInTheDocument();
-
-})
 
 
-
-test('Render Create Form', () => {
-
-  const app = render(<App />)
-  const button = app.getByText("create")
-
-  fireEvent.click(button);
-
-  // forms are not accessible by getByRole
-  // To access it, we need a aria-label to query with
-  const formElement = app.getByRole('form', { name: /create form/i })
-  expect(formElement).toBeInTheDocument();
-})
-
-
-
-test('Render Create Form', async () => {
-
-  const app = render(<App />)
-  const button = app.getByText("create")
-
-  fireEvent.click(button);
-
-  const formInput = app.getByRole('textbox', { name: /todo name/i })
-  const referenceText = "Example todo"
-
-  await userEvent.type(formInput, referenceText)
-  expect(formInput).toHaveValue(referenceText);
-})
-
-
-
-test('Change Page on Form Submit', async () => {
+test('User flow to create new task (Page Nav -> Input Text -> Submit Form -> Page Nav -> Todo Created', async () => {
   const todoText = "Example todo"
 
   const app = render(<App />)
-  const button = app.getByText("create")
+  const navButton = app.getByText("create")
 
-  fireEvent.click(button);
+  fireEvent.click(navButton);
+  // Confirm Page Redirect
+  const newTodoHeader = app.getByText("Create a new todo");
+  expect(newTodoHeader).toBeInTheDocument();
 
   const formInput = app.getByRole('textbox', { name: /todo name/i })
   await userEvent.type(formInput, todoText)
+  // Confirm Input Change on Type
+  expect(formInput).toHaveValue(todoText);
 
   const formElement = app.getByRole('form', { name: /create form/i })
   fireEvent.submit(formElement);
 
-  const header = app.getByText("Your todos");
-  expect(header).toBeInTheDocument()
+  // Confirm Page Redirect
+  const todoListHeader = app.getByText("Your todos");
+  expect(todoListHeader).toBeInTheDocument()
 
-})
-
-
-
-test('Create New Todo Element on Form Submit', async () => {
-  const todoText = "Example todo"
-
-  const app = render(<App />)
-  const button = app.getByText("create")
-
-  fireEvent.click(button);
-
-  const formInput = app.getByRole('textbox', { name: /todo name/i })
-  await userEvent.type(formInput, todoText)
-
-  const formElement = app.getByRole('form', { name: /create form/i })
-  fireEvent.submit(formElement);
-
+  // Confirm Todo Element Created
   const todoElement = app.getByText(todoText)
   expect(todoElement).toBeInTheDocument()
+
+  /* Optional testing for multiple todo creation
+    fireEvent.click(navButton);
+
+    const newFormInput = app.getByRole('textbox', { name: /todo name/i })
+    await userEvent.type(newFormInput, `${todoText} 2`)
+
+    const newFormElement = app.getByRole('form', { name: /create form/i })
+    fireEvent.submit(newFormElement);
+
+    // Original Todo still exists
+    const prevTodoElement = app.getByText(todoText)
+    expect(prevTodoElement).toBeInTheDocument()
+
+    // New Todo was added
+    const newTodoElement = app.getByText(`${todoText} 2`)
+    expect(newTodoElement).toBeInTheDocument()
+  */
 })
