@@ -140,3 +140,32 @@ test('Save changes on click of "Save Changes" button', async () => {
   const revisedTodoElement = app.getByRole('textbox', { name: /todo-0/i })
   expect(revisedTodoElement).toHaveValue(revisedText)
 })
+
+
+
+test('Delete a todo by clicking the delete button', async () => {
+  const todoText = "Example todo"
+  const revisedText = "Revised todo"
+
+  const app = render(<App />)
+  const navButton = app.getByText("create")
+
+  fireEvent.click(navButton);
+
+  const formInput = app.getByRole('textbox', { name: /todo name/i })
+  await userEvent.type(formInput, todoText)
+
+  const formElement = app.getByRole('form', { name: /create form/i })
+  fireEvent.submit(formElement);
+
+  const todoElement = app.getByRole('textbox', { name: /todo-0/i })
+  await userEvent.clear(todoElement);
+  await userEvent.type(todoElement, revisedText)
+
+  const deleteButton = app.getByText('Delete Todo')
+  fireEvent.click(deleteButton);
+
+  // Expect 
+  const deletedElement = app.getByRole('textbox', { name: /todo-0/i })
+  expect(deletedElement).toBeNull()
+})
