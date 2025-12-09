@@ -13,7 +13,6 @@ const TodoList = ({ todos, handleTodoChanges }) => {
   }, [todos])
 
 
-
   const handleInputChange = (index, e) => {
     // map through each element of the original array
     // If the index of said array matches the edited index...
@@ -25,11 +24,20 @@ const TodoList = ({ todos, handleTodoChanges }) => {
     e.preventDefault()
     handleTodoChanges(todoList)
   }
+
+  const handleTodoDelete = (index) => {
+    const updatedTodoList = [...todoList]
+    updatedTodoList.pop(index)
+    setTodoList(updatedTodoList)
+  }
   
   return (
     <form onSubmit={handleSaveChanges}>
       {todoList.map((todo, index) => (
-        <input key={index} value={todo} onChange={(e) => {handleInputChange(index, e)}} aria-label={`todo-${index}`}></input>
+        <div key={index}>
+          <input value={todo} onChange={(e) => { handleInputChange(index, e) }} aria-label={`todo-${index}`}></input>
+          <button type="button" onClick={() => {handleTodoDelete(index)}}>Delete Todo</button>
+        </div>
       ))}
 
       {todoList != todos && <button>Save Changes</button>}

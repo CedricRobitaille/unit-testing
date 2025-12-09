@@ -145,7 +145,6 @@ test('Save changes on click of "Save Changes" button', async () => {
 
 test('Delete a todo by clicking the delete button', async () => {
   const todoText = "Example todo"
-  const revisedText = "Revised todo"
 
   const app = render(<App />)
   const navButton = app.getByText("create")
@@ -158,14 +157,11 @@ test('Delete a todo by clicking the delete button', async () => {
   const formElement = app.getByRole('form', { name: /create form/i })
   fireEvent.submit(formElement);
 
-  const todoElement = app.getByRole('textbox', { name: /todo-0/i })
-  await userEvent.clear(todoElement);
-  await userEvent.type(todoElement, revisedText)
-
   const deleteButton = app.getByText('Delete Todo')
   fireEvent.click(deleteButton);
 
-  // Expect 
-  const deletedElement = app.getByRole('textbox', { name: /todo-0/i })
-  expect(deletedElement).toBeNull()
+  // Query for the element (Must be query, not get, as get causes error)
+  // Check that the element could not be found
+  const todoElement = app.queryByText(todoText)
+  expect(todoElement).toBeNull()
 })
