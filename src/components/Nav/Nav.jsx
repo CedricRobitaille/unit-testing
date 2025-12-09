@@ -1,13 +1,13 @@
 const pages = ["home","create"]
 
-const Nav = () => {
+const Nav = ({ handleNavigate }) => {
 
   return (
     <nav>
       <ul>
         {pages.map((page, index) => (
           <li key={index}>
-            <button onClick={() => {}}>{page}</button>
+            <button onClick={() => { handleNavigate(page) }}>{page}</button>
           </li>
         ))}
       </ul>
